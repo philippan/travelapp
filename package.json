@@ -1,0 +1,19 @@
+{
+  "name": "travelapp",
+  "version": "1.0.0",
+  "description": "App takes destination and departure and returns the weather",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philippan/travelapp.git"
+  },
+  "author": "Philip",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/philippan/travelapp/issues"
+  },
+  "homepage": "https://github.com/philippan/travelapp#readme"
+}
