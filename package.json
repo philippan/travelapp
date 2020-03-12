@@ -2,13 +2,13 @@
   "name": "travelapp",
   "version": "1.0.0",
   "description": "App takes destination and departure and returns the weather",
-  "main": "./src/client/index.js",
+  "main": "server.js",
   "engines": {
     "node": "12.x",
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node ./src/server/server.js",
+    "start": "node src/server/server.js",
     "build": "webpack --config webpack.config.js",
     "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
     "heroku-postbuild": "echo This runs afterwards.",
