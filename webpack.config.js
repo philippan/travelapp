@@ -1,7 +1,6 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const json = require('./file.json');
-const path = require('path');
 
 module.exports = {
     mode: "production", 
@@ -30,6 +29,11 @@ module.exports = {
               }
           },
           {
+              test: /\.js$/,
+              use: ["source-map-loader"],
+              enforce: "pre"
+          },
+          {
               test: /\.html$/i,
               loader: 'html-loader',
           },
@@ -42,7 +46,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: "./src/client/views/index.html",
-            filename: "./src/client/views/index.html"
+            filename: "./index.html"
         }),
         new CleanWebpackPlugin()
     ]
