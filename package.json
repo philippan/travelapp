@@ -2,8 +2,16 @@
   "name": "travelapp",
   "version": "1.0.0",
   "description": "App takes destination and departure and returns the weather",
-  "main": "index.js",
+  "main": "./src/client/index.js",
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
   "scripts": {
+    "start": "node ./src/server/server.js",
+    "build": "webpack --config webpack.config.js",
+    "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
+    "heroku-postbuild": "echo This runs afterwards.",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,8 +25,17 @@
   },
   "homepage": "https://github.com/philippan/travelapp#readme",
   "dependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
     "cool-ascii-faces": "^1.3.4",
     "express": "^4.17.1",
-    "pg": "^7.18.2"
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "json-loader": "^0.5.7",
+    "pg": "^7.18.2",
+    "webpack": "^4.42.0",
+    "webpack-dev-middleware": "^3.7.2"
   }
 }
