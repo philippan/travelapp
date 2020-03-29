@@ -5,7 +5,7 @@ let submitLocation = document.getElementById("submitLocation");
 
 submitLocation.addEventListener("click", function() {
 
-		let userLocation = inputLocation.attribute.value;
+		let userLocation = inputLocation.value;
 		console.log(userLocation);
 
 });
