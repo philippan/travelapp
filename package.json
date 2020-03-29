@@ -1,7 +1,7 @@
 {
   "name": "travelapp",
   "version": "1.0.0",
-  "description": "App takes destination and departure and returns the weather",
+  "description": "App takes a destination and departure time and returns the destination's weather.",
   "main": "server.js",
   "engines": {
     "node": "12.x",
@@ -35,6 +35,7 @@
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "json-loader": "^0.5.7",
+    "node-geonames-client": "0.0.2",
     "pg": "^7.18.2",
     "source-map-loader": "^0.2.4",
     "webpack": "^4.42.0",
