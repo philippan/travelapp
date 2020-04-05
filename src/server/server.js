@@ -4,8 +4,7 @@ const path = require('path')
 
 const express = require('express')
 const app = express();
-const port = process.env.PORT || 8080
-
+const port = process.env.PORT || 8080;
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const config = require('../../webpack.config.js');
