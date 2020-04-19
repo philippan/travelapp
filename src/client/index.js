@@ -11,7 +11,7 @@ import "./js/app.js";
 const getLocation = async (streetNumber, streetName, city) => {
 
 
-		let baseURL = "https://api.geonames.org/geoCodeAddressJSON?q=";
+		let baseURL = "https://secure.geonames.org/geoCodeAddressJSON?q=";
 		let geoUsername = "finleydunne";
 		streetNumber = "6";
 		streetName = "Museumplein";
