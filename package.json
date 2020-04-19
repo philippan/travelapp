@@ -38,6 +38,7 @@
     "json-loader": "^0.5.7",
     "node-geonames-client": "0.0.2",
     "pg": "^7.18.2",
+    "regenerator-runtime": "^0.13.5",
     "source-map-loader": "^0.2.4",
     "webpack": "^4.42.0",
     "webpack-dev-middleware": "^3.7.2"
