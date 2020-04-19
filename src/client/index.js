@@ -18,7 +18,7 @@ const getLocation = async (streetNumber, streetName, city) => {
 		city = "amsterdam";
 		
 
-		let requestConfig = await fetch(`${baseURL}=${streetName}+${streetNumber}+${city}&username=${geoUsername}`);
+		let requestConfig = await fetch(`${baseURL}${streetName}+${streetNumber}+${city}&username=${geoUsername}`);
 
 				try {
 
