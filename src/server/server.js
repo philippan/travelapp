@@ -1,8 +1,8 @@
-const cool = require('cool-ascii-faces')
+const cool = require('cool-ascii-faces');
 
-const path = require('path')
+const path = require('path');
 
-const express = require('express')
+const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
 const webpack = require('webpack');
@@ -15,6 +15,5 @@ const compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
 }));
-
 
 app.listen(port);

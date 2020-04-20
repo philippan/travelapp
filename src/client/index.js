@@ -1,36 +1,36 @@
 const regeneratorRuntime = require("regenerator-runtime");
 
-// -- USER INTERFACE -- // 
-
-import "./js/app.js";
-
-
 // -- FETCH API INFORMATION -- //
 
 
-const getLocation = async (streetNumber, streetName, city) => {
+const getCoordinates = async (city, state, country) => {
 
-
+		let geoUsername = process.env.GEONAMES_USERNAME;
 		let baseURL = "https://secure.geonames.org/geoCodeAddressJSON?q=";
-		let geoUsername = "finleydunne";
-		streetNumber = "6";
-		streetName = "Museumplein";
-		city = "amsterdam";
 		
+		/*
+				TEST DATA
 
-		let requestConfig = await fetch(`${baseURL}${streetName}+${streetNumber}+${city}&username=${geoUsername}`);
+				streetNumber = "6";
+				streetName = "Museumplein";
+				city = "amsterdam";
+		*/
+
+		let requestConfig = await fetch(`${baseURL}+${city}+${state}+${country}&username=${geoUsername}`);
 
 				try {
 
 						const geoResponse = await requestConfig.json();
 						console.log(geoResponse.address.lat);
 						console.log(geoResponse.address.lng);
-						
+						console.log(geoResponse.address.postalcode + " " + "Postal Code");
+						console.log(geoResponse.address.adminName1);
+						console.log(geoResponse.address.locality);
 
 						let latitude = geoResponse.address.lat;
 						let longitude = geoResponse.address.lng;
 
-						getCoordinates(latitude, longitude);
+						return [latitude, longitude];
 
 				}
 
@@ -43,22 +43,58 @@ const getLocation = async (streetNumber, streetName, city) => {
 
 }
 
-const getCoordinates = async (latitude, longitude) => {
+const getWeather = async (latitude, longitude, departureDate, daysApart) => {
 
-		let baseURL = "https://api.weatherbit.io/v2.0/current?";
-		let locoKey = "6a3adea572ec42508d740188ade861b3";
+		let weatherKey = process.env.WEATHERBIT_KEY;
+		let currentURL =`https://api.weatherbit.io/v2.0/current?&lat=${latitude}&lon=${longitude}&key=${weatherKey}`;
+		let forecastURL = `https://api.weatherbit.io/v2.0/forecast/daily?&lat=${latitude}&lon=${longitude}&key=${weatherKey}`;
+
+		let weatherURL = currentURL;
+
+		if (daysApart >= -7 && daysApart <= 7) {
+
+				weatherURL = currentURL;				
+				console.log("Today's weather");
+
+		}
+
+		else if (daysApart > 7) {
+
+				weatherURL = forecastURL;				
+				console.log("Forecast");
+
+		}
+
+		else {
+
+				console.log("Historical weather");
+		}
 		
-		let requestConfig = await fetch(`${baseURL}&lat=${latitude}&lon=${longitude}&key=${locoKey}`);
+		let requestConfig = await fetch(weatherURL);
 
 			try {
 
-					const locoResponse = await requestConfig.json();
+					const weatherResponse = await requestConfig.json();
+					console.log(weatherResponse);
 
-					let obTime = locoResponse.data[0].ob_time;
-					let temp = locoResponse.data[0].temp;
-					let precip = locoResponse.data[0].precip;
-					let clouds = locoResponse.data[0].clouds; 
-					let countryCode = locoResponse.data[0].country_code;
+					let obTime = weatherResponse.data[0].ob_time;
+					let temp = weatherResponse.data[0].temp;
+					let precip = weatherResponse.data[0].precip;
+					let clouds = weatherResponse.data[0].clouds; 
+					let countryCode = false;
+
+					if (daysApart > 7) {
+
+							countryCode = weatherResponse.country_code;
+							console.log(countryCode);
+
+					}
+
+					else {
+
+							countryCode = weatherResponse.data[0].country_code;
+							console.log(countryCode);
+					}
 
 
 					let requestCountry = await fetch(`https://restcountries.eu/rest/v2/alpha/${countryCode}`);
@@ -74,7 +110,7 @@ const getCoordinates = async (latitude, longitude) => {
 
 									console.log(`Observed: ${obTime} Temperature: ${temp} Chance of percipitation: ${precip} Cloud coverage: ${clouds} Country: ${countryName} Capital: ${countryCapital} Currency: ${countryCapital} Language: ${countryLanguage}`);
 
-									getPicture(countryName);
+									return [obTime, temp, precip, clouds, countryName, countryCapital, countryCurrency, countryLanguage];
 
 							}
 
@@ -97,6 +133,7 @@ const getCoordinates = async (latitude, longitude) => {
 
 }
 
+
 const getPicture = async (country) => {
 
 	let baseURL = "https://pixabay.com/api/?";
@@ -109,7 +146,10 @@ const getPicture = async (country) => {
 						const pixaResponse = await requestConfig.json();
 						
 						let countryPicURL = pixaResponse.hits[1].largeImageURL;
+
 						console.log(countryPicURL);
+						
+						return countryPicURL;
 
 		}
 
@@ -122,4 +162,4 @@ const getPicture = async (country) => {
 
 }
 
-getLocation();
+export { getCoordinates, getWeather, getPicture };
