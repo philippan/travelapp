@@ -1,24 +1,8 @@
-main {
-
-	padding: 0px 300px;
-
-}
-
-form {
-    border: 1px solid #979797;
-    border-radius: 4px;
-    padding: 40px;
-}
-
-results {
-    margin: 0px 100px
-}
-
 input {
 
     padding: 16px 20px;
-    border: 1px solid #eeeeee;
-    border-radius: 10px;
+    background-color: rgba(255,255,255,0.00);
+    border: 2px solid #eeeeee;
     width: 100%;
     line-height: 16px;
     margin-bottom: 16px;
@@ -26,9 +10,6 @@ input {
 
 }
 
-.thoughts {
-	
-	margin-top: 100px;
-	margin-bottom: 300px;
-
+results {
+    margin: 0px 100px
 }

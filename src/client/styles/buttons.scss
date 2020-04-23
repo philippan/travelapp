@@ -1,14 +1,15 @@
 button {
 
-	font-size: 17px;
-	background-color: #4285F4;;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 24px;
+	background-color: $tweather-white;
 	padding: 12px 24px;
-	border-radius: 4px;
-	color: #ffffff;
+	color: $tweather-purple;	
 	font-weight: 600;
 	text-decoration: none;
 	border: 0px solid;
 	cursor: pointer;
+	width: 100%;
 
 }
 

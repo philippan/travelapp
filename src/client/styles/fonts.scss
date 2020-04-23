@@ -1,19 +1,44 @@
+.hero {
+
+		h1 {
+			
+				font-family: 'Quicksand', sans-serif;
+				font-size: 120px;
+				line-height: 180px;
+				font-weight: 500;
+				color: $tweather-white;
+				text-align: center;
+
+		}
+
+		p {
+	
+				font-family: 'Josefin Sans', sans-serif;
+				font-size: 24px;
+				font-weight: 400;
+				color: $tweather-white;
+				text-align: center;
+
+		}
+
+}
+
 h3 {
 	
-		font-family: 'Spartan', sans-serif;
+		font-family: 'Quicksand', sans-serif;
 		font-size: 28px;
 		line-height: 48px;
 		font-weight: 400;
-		color: #000000;
+		color: $tweather-white;
 
 }
 
 
 h4 {
 
-		font-family: 'Spartan', sans-serif;
+		font-family: 'Quicksand', sans-serif;
 		font-size: 14px;
-		color: #000000;	
+		color: $tweather-white;	
 		font-weight: 600;
 		margin: 24px 0px;	
 
@@ -21,33 +46,33 @@ h4 {
 
 p {
 	
-		font-family: 'Roboto', sans-serif;
+		font-family: 'Josefin Sans', sans-serif;
 		font-weight: 400;
 		font-size: 17px;
-		color: #000000;
+		color: $tweather-white;
 
 }
 
 
 label {
 	
-		font-family: 'Spartan', sans-serif;
+		font-family: 'Quicksand', sans-serif;
 		font-size: 14px;
-		color: #000000;	
+		color: $tweather-white;	
 		font-weight: 600;
 }
 
 input {
 	
-		font-family: 'Roboto', sans-serif;
-		font-size: 17px;
+		font-family: 'Josefin Sans', sans-serif;
+		font-size: 24px;
 		font-weight: 300;
-		color: #000000;		
+		color: $tweather-white;		
 }
 
 a {
 	
-		font-family: 'Roboto', sans-serif;
+		font-family: 'Josefin Sans', sans-serif;
 		font-size: 17px;
 
 }
