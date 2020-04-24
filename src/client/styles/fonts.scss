@@ -1,27 +1,6 @@
-.hero {
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300|Quicksand&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 
-		h1 {
-			
-				font-family: 'Quicksand', sans-serif;
-				font-size: 120px;
-				line-height: 180px;
-				font-weight: 500;
-				color: $tweather-white;
-				text-align: center;
-
-		}
-
-		p {
-	
-				font-family: 'Josefin Sans', sans-serif;
-				font-size: 24px;
-				font-weight: 400;
-				color: $tweather-white;
-				text-align: center;
-
-		}
-
-}
 
 h3 {
 	
@@ -54,28 +33,54 @@ p {
 }
 
 
-label {
-	
-		font-family: 'Quicksand', sans-serif;
-		font-size: 14px;
-		color: $tweather-white;	
-		font-weight: 600;
-}
-
-input {
-	
-		font-family: 'Josefin Sans', sans-serif;
-		font-size: 24px;
-		font-weight: 300;
-		color: $tweather-white;		
-}
-
 a {
 	
 		font-family: 'Josefin Sans', sans-serif;
 		font-size: 17px;
 
 }
+
+
+.hero {
+
+		h1 {
+			
+				font-family: 'Quicksand', sans-serif;
+				font-size: 120px;
+				line-height: 180px;
+				font-weight: 500;
+				color: $tweather-white;
+				text-align: center;
+
+		}
+
+		p {
+	
+				font-family: 'Josefin Sans', sans-serif;
+				font-size: 24px;
+				font-weight: 400;
+				color: $tweather-white;
+				text-align: center;
+
+		}
+
+}
+
+
+.results {
+	
+		h1 {
+
+			font-family: 'Quicksand', sans-serif;
+			font-size: 100px;
+			color: $tweather-white;
+			font-weight: 100;
+			text-align: center;
+
+		}
+
+}
+
 
 footer {
 
