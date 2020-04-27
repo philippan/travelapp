@@ -1,9 +1,9 @@
 label {
     
         font-family: 'Quicksand', sans-serif;
-        font-size: 15px;
+        font-size: 14px;
         color: $tweather-white; 
-        font-weight: 600;
+        font-weight: 800;
 }
 
 input {
@@ -57,19 +57,14 @@ select {
     
 }
 
-select:first-child {
-    
-        color: $tweather-white-light;
-}
-
-
-
 select:focus {
     
-        color: $tweather-white;
         border: 2px solid rgba(255,255,255,0.9);
 
-} 
+}
+ 
+
+/* dropdown arrow down */
 
 .select::after {
     
@@ -83,10 +78,38 @@ select:focus {
         z-index: -10;
         padding: 0px;
         right: 15px;
-        bottom: 49px;
+        bottom: 43px;
         
         width: 100%;
  
         display: inline-block;    
+
+}
+
+/* *** Form animations *** */
+
+.formDefault {
+    
+        opacity: 1;
+        display: block;
+
+}
+
+.formOn {
+    
+        opacity: 1;
+        display: block;
+        transition: opacity 1s ease-in;
+        transition: display 1s ease-in;
+        
+
+}     
+
+.formOff {
+    
+        opacity: 0;
+        display: none;
+        transition: opacity 1s ease-out;
+        transition: display 1s ease-out;
 
 }

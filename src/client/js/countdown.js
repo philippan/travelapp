@@ -3,28 +3,42 @@ import { compareDates } from './compareDates.js';
 const countdown = (now, departureDate) => {
 
 let daysApart = compareDates(now, departureDate);
-daysApart = Math.round(daysApart);
 
 let displayDiv = document.getElementById("countdown");
 
 		if (daysApart > 1) {
 		
-				displayDiv.innerHTML = `Your trip is only ${daysApart} days away!`;
+				daysApart = Math.round(daysApart);
+				displayDiv.innerHTML = `
+						<h4>Countdown</h4>
+						<p>Your trip starts in ${daysApart} days</p>
+				`;
 		}
 
-		if (daysApart = 1) {
+		if (daysApart >= 1 && daysApart <= 1.5) {
 		
-				displayDiv.innerHTML = `Your trip is only ${daysApart} day away! (Have you packed?)`;
+				displayDiv.innerHTML = `
+						<p>Your trip starts tomorrow</p>
+				`;
 		}
 
-		if (daysApart = 0) {
+		if (daysApart < 1 && daysApart > -1) {
 		
-				displayDiv.innerHTML = `Better catch a Lyft!`;
+				console.log("Countdown: " + daysApart);
+
+				displayDiv.innerHTML = `
+						<h4>Countdown</h4>
+						<p>Your trip is today</p>
+				`;
+
 		}
 
-		if (daysApart < 0) {
+		if (daysApart <= -1) {
 		
-				displayDiv.innerHTML = `Reminiscing about a trip?`;
+				displayDiv.innerHTML = `
+						<h4>Countdown</h4>
+						<p>Reminiscing about a trip?</p>
+				`;
 		}
 
 }

@@ -78,9 +78,9 @@ const getWeather = async (latitude, longitude, departureDate, daysApart) => {
 					console.log(weatherResponse);
 
 					let obTime = weatherResponse.data[0].ob_time;
-					let temp = weatherResponse.data[0].temp;
-					let precip = weatherResponse.data[0].precip;
-					let clouds = weatherResponse.data[0].clouds; 
+					let temp = Math.round(weatherResponse.data[0].temp);
+					let precip = Math.round(weatherResponse.data[0].precip);
+					let clouds = Math.round(weatherResponse.data[0].clouds); 
 					let countryCode = false;
 
 					if (daysApart > 7) {
@@ -98,6 +98,8 @@ const getWeather = async (latitude, longitude, departureDate, daysApart) => {
 
 
 					let requestCountry = await fetch(`https://restcountries.eu/rest/v2/alpha/${countryCode}`);
+
+
 
 							try {
 

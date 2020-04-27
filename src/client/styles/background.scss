@@ -1,6 +1,23 @@
-body {
+.bgDefault {
 
-		background-image: linear-gradient(180deg, #271851 0%, #161557 100%);
+		background-color: $tweather-purple-dark;
+}
+
+.bgLoading {
+	
+		background-color: $tweather-orange;
+		transition-property: background-color;
+  		transition-duration: 1s;
+  		transition-timing-function: ease-in;
+
+}
+
+.bgLoadComplete {
+
+		background-color: $tweather-purple-dark;
+		transition-property: background-color;
+  		transition-duration: 1s;
+  		transition-timing-function: ease-in;
 	
 }
 
@@ -11,7 +28,7 @@ body {
 	    height: 100%;
 }
 
-.circles{
+.circles {
    
     position: absolute;
     top: 0;
@@ -23,6 +40,9 @@ body {
 
 }
 
+
+/* *** Master Circle *** */
+
 .circles li {
    
     position: absolute;
@@ -31,10 +51,11 @@ body {
     width: 20px;
     height: 20px;
     background: rgba(255, 255, 255, 0.2);
-    animation: animate 25s linear infinite;
+    animation: moveCircle 25s linear infinite;
     bottom: -150px;
     
 }
+
 
 .circles li:nth-child(1){
     
@@ -117,7 +138,7 @@ body {
 }
 
 
-@keyframes animate {
+@keyframes moveCircle {
 
     0%{
         transform: translateY(-1040px);

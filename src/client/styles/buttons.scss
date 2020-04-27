@@ -2,6 +2,7 @@ button {
 
 	font-family: 'Quicksand', sans-serif;
 	font-size: 24px;
+	line-height: 24px;
 	background-color: $tweather-white;
 	padding: 12px 24px;
 	color: $tweather-purple;	
@@ -13,14 +14,12 @@ button {
 
 }
 
-.buttonLink {
+.secondary {
 	
-	font-size: 17px;
-	background-color: #f6f6f6;
-	padding: 12px 24px;
-	border-radius: 4px;
-	color: #000000;
-	font-weight: 600;
-	text-decoration: none;
+	line-height: 24px;
+	color: $tweather-white;
+	background-color: rgba(255,255,255,0.00);
+    border: 2px solid rgba(255,255,255,0.2);
+    width: 100%;
 
 }

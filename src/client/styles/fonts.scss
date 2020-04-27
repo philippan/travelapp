@@ -16,10 +16,21 @@ h3 {
 h4 {
 
 		font-family: 'Quicksand', sans-serif;
-		font-size: 14px;
-		color: $tweather-white;	
-		font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: $tweather-white; 
+        font-weight: 800;
 		margin: 24px 0px;	
+
+}
+
+h5 {
+	
+		font-family: 'Josefin Sans', sans-serif;
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 24px;
+		color: $tweather-white;	
 
 }
 
@@ -27,7 +38,8 @@ p {
 	
 		font-family: 'Josefin Sans', sans-serif;
 		font-weight: 400;
-		font-size: 17px;
+		font-size: 24px;
+		line-height: 24px;
 		color: $tweather-white;
 
 }
@@ -46,7 +58,7 @@ a {
 		h1 {
 			
 				font-family: 'Quicksand', sans-serif;
-				font-size: 120px;
+				font-size: 100px;
 				line-height: 180px;
 				font-weight: 500;
 				color: $tweather-white;
@@ -72,23 +84,51 @@ a {
 		h1 {
 
 			font-family: 'Quicksand', sans-serif;
-			font-size: 100px;
+			font-size: 64px;
 			color: $tweather-white;
-			font-weight: 100;
+			font-weight: 400;
+			margin: 12px auto 12px auto;
 			text-align: center;
+
+		}
+
+		#cast {
+
+			font-family: 'Quicksand', sans-serif;
+        	font-size: 14px;
+        	font-weight: 600px;
+        	text-transform: uppercase;
+        	text-align: center;
+        	padding-right: 10px;
+        	margin-bottom: 56px;			
 
 		}
 
 }
 
+#countdown {
+	
+		text-align: center;
 
-footer {
+}
 
+#countdown {
+	
+		h4 {
+
+			margin-top: 0px;
+
+		}
+
+}
+
+#countryInfo {
+	
 		p {
-			display: block;
-			text-align: center;
-			margin: 32px auto;
-			font-size: 14px;
+
+				font-size: 18px;
+				line-height: 32px;
+
 		}
 
 }

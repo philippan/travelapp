@@ -1,5 +1,7 @@
 const regeneratorRuntime = require("regenerator-runtime");
 const now = new Date(); 
+const userSubmit = document.getElementById("userSubmit"); 
+const userReset = document.getElementById("userReset"); 
 
 
 import { getInput } from './getInput.js';
@@ -8,6 +10,8 @@ import { compareDates } from './compareDates.js';
 import { countdown } from './countdown.js';
 import { displayWeather } from './displayWeather.js';
 import { displayNoResults } from './displayNoResults.js';
+import { loadStart, loadEnd } from './loadTransition.js';
+import { appReset } from './appReset.js';
 
 import  '../styles/index.scss';
 
@@ -16,11 +20,11 @@ import  '../styles/index.scss';
 
 const appResponse = async () => {
 
-		let [city, state, country, departureDay, departureMonth, departureYear, departureDate] = await getInput();
-		
-		let daysApart = await compareDates(now, departureDate);
+		let [city, state, country, departureDay, departureMonth, departureYear, departureDate, departureDisplay] = await getInput();
 
-		countdown(now, departureDate);
+		loadStart();
+	
+		let daysApart = await compareDates(now, departureDate);
 
 		let [latitude, longitude] = await getCoordinates(city, state, country);
 
@@ -28,18 +32,25 @@ const appResponse = async () => {
 
 				try {
 
-						displayWeather(obTime, temp, precip, clouds, countryName, countryCapital, countryCurrency, countryLanguage);
-
-				}
+						displayWeather(daysApart, departureDisplay, obTime, temp, precip, clouds, countryName, countryCapital, countryCurrency, countryLanguage);
+						countdown(now, departureDate);
+						
+						loadEnd();
+						
+						
+    			}
 
 				catch (error) {
 		
 						let countryPicURL = await getPicture(countryName);
 
 						displayNoResults(countryPicURL);
-
+						countdown(now, departureDate);
+						
+						loadEnd();
+						
 				}
-
+		
 }
 
 
@@ -64,3 +75,7 @@ document.querySelectorAll('.userInput').forEach(item => {
 		})
 
 });
+
+// ----- Click to Reset button
+
+userReset.addEventListener("click", appReset);

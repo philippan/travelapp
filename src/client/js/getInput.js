@@ -7,10 +7,11 @@ const getInput = () => {
 		let departureMonth = document.getElementById("month").value;
 		let departureYear = document.getElementById("year").value
 		let departureDate = new Date(departureYear, departureMonth-1, departureDay);
+		let departureDisplay = `${departureMonth} &#47; ${departureDay} &#47; ${departureYear}`
 		
 		let userSubmit = document.getElementById("userSubmit").value;
 
-		return [city, state, country, departureDay, departureMonth, departureYear, departureDate];
+		return [city, state, country, departureDay, departureMonth, departureYear, departureDate, departureDisplay];
 		
 }
 
