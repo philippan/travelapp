@@ -2,16 +2,19 @@ const regeneratorRuntime = require("regenerator-runtime");
 const now = new Date(); 
 const userSubmit = document.getElementById("userSubmit"); 
 const userReset = document.getElementById("userReset"); 
+const obscureLocation = document.getElementById("getObscure"); 
 
 
 import { getInput } from './getInput.js';
-import { getCoordinates, getWeather, getPicture } from '../index.js';
+import { getCoordinates, getWeather, getCountryInfo, getPicture } from '../index.js';
 import { compareDates } from './compareDates.js';
 import { countdown } from './countdown.js';
 import { displayWeather } from './displayWeather.js';
 import { displayNoResults } from './displayNoResults.js';
 import { loadStart, loadEnd } from './loadTransition.js';
 import { appReset } from './appReset.js';
+import { getObscure } from './getObscure.js';
+import { displayError } from './displayError.js';
 
 import  '../styles/index.scss';
 
@@ -20,36 +23,69 @@ import  '../styles/index.scss';
 
 const appResponse = async () => {
 
-		let [city, state, country, departureDay, departureMonth, departureYear, departureDate, departureDisplay] = await getInput();
+		let [street, city, state, country, departureDay, departureMonth, departureYear, departureDate, departureDisplay] = await getInput();
+
+		console.log("App entered: " + street + " " + city + " " + state + " " + country);
 
 		loadStart();
 	
 		let daysApart = await compareDates(now, departureDate);
 
-		let [latitude, longitude] = await getCoordinates(city, state, country);
+		let [latitude, longitude, nickname, locale] = await getCoordinates(street, city, state, country);
 
-		let [obTime, temp, precip, clouds, countryName, countryCapital, countryCurrency, countryLanguage] = await getWeather(latitude, longitude, departureDate, daysApart);
+		let [weatherSuccess, obTime, temp, precip, clouds, countryCode] = await getWeather(latitude, longitude, departureDate, daysApart);
 
-				try {
+		let [countrySuccess, countryName, countryCapital, countryCurrency, countryLanguage] = await getCountryInfo(countryCode, country);
+			
+		console.log("Weather Success: " + weatherSuccess);
+		console.log("Country Success: " + countrySuccess);
 
-						displayWeather(daysApart, departureDisplay, obTime, temp, precip, clouds, countryName, countryCapital, countryCurrency, countryLanguage);
-						countdown(now, departureDate);
-						
-						loadEnd();
-						
-						
-    			}
-
-				catch (error) {
 		
-						let countryPicURL = await getPicture(countryName);
+		if (weatherSuccess == "success") {
+				
 
-						displayNoResults(countryPicURL);
-						countdown(now, departureDate);
-						
-						loadEnd();
-						
-				}
+				displayWeather(countrySuccess, daysApart, departureDisplay, obTime, temp, precip, clouds, country, countryName, countryCapital, countryCurrency, countryLanguage);
+				
+
+				countdown(now, departureDate, nickname, locale);
+
+				
+				loadEnd();
+
+
+		}
+
+
+		else if (weatherSuccess == "fail" && countrySuccess == "success") {
+
+								
+				let pixaResponse = await getPicture(countryName);
+				
+				displayNoResults(countrySuccess, country, countryName, countryCapital, countryCurrency, countryLanguage, pixaResponse);
+
+
+				countdown(now, departureDate, nickname, locale);
+
+
+				loadEnd();
+
+
+		}  
+
+
+		else if (weatherSuccess == "fail" && countrySuccess == "fail") {
+
+
+				displayError();
+
+				let displayCountdown = document.getElementById("countdown");
+				displayCountdown.style.display = "none";
+
+
+				loadEnd();
+
+		}
+				
 		
 }
 
@@ -79,3 +115,8 @@ document.querySelectorAll('.userInput').forEach(item => {
 // ----- Click to Reset button
 
 userReset.addEventListener("click", appReset);
+
+
+// ---- Click Give me an obscure location
+
+obscureLocation.addEventListener("click", getObscure);

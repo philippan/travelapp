@@ -1,49 +1,9 @@
 const regeneratorRuntime = require("regenerator-runtime");
 
-// -- FETCH API INFORMATION -- //
 
+// -- HELPER FUNCTIONS --- //
 
-const getCoordinates = async (city, state, country) => {
-
-		let geoUsername = process.env.GEONAMES_USERNAME;
-		let baseURL = "https://secure.geonames.org/geoCodeAddressJSON?q=";
-		
-		/*
-				TEST DATA
-
-				streetNumber = "6";
-				streetName = "Museumplein";
-				city = "amsterdam";
-		*/
-
-		let requestConfig = await fetch(`${baseURL}+${city}+${state}+${country}&username=${geoUsername}`);
-
-				try {
-
-						const geoResponse = await requestConfig.json();
-						console.log(geoResponse.address.lat);
-						console.log(geoResponse.address.lng);
-						console.log(geoResponse.address.postalcode + " " + "Postal Code");
-						console.log(geoResponse.address.adminName1);
-						console.log(geoResponse.address.locality);
-
-						let latitude = geoResponse.address.lat;
-						let longitude = geoResponse.address.lng;
-
-						return [latitude, longitude];
-
-				}
-
-				catch (error) {
-
-						console.log("Couldn't get response from geonames", error);
-						console.log(requestConfig);
-
-				}
-
-}
-
-const getWeather = async (latitude, longitude, departureDate, daysApart) => {
+const getWeatherURL = async (daysApart, latitude, longitude) => {
 
 		let weatherKey = process.env.WEATHERBIT_KEY;
 		let currentURL =`https://api.weatherbit.io/v2.0/current?&lat=${latitude}&lon=${longitude}&key=${weatherKey}`;
@@ -66,19 +26,82 @@ const getWeather = async (latitude, longitude, departureDate, daysApart) => {
 		}
 
 		else {
-
+			
+				weatherURL = currentURL;
 				console.log("Historical weather");
 		}
+
+		return weatherURL;
+
+}
+
+
+
+// -- FETCH API INFORMATION -- //
+
+
+const getCoordinates = async (street, city, state, country) => {
+
+		let geoUsername = process.env.GEONAMES_USERNAME;
+		let baseURL = "https://secure.geonames.org/geoCodeAddressJSON?q=";
+
+		let requestConfig = await fetch(`${baseURL}${street}+${city}+${state}+${country}&username=${geoUsername}`);
+
+				try {
+
+						const geoResponse = await requestConfig.json();
+						
+						console.log(geoResponse.address.lat);
+						console.log(geoResponse.address.lng);
+						console.log(geoResponse.address.postalcode + " " + "Postal Code");
+						console.log(geoResponse.address.adminName1);
+						console.log(geoResponse.address.locality);
+						
+						let latitude = geoResponse.address.lat;
+						let longitude = geoResponse.address.lng;
+						let postalCode = geoResponse.address.postalcode;
+						let nickname = geoResponse.address.adminName1;
+						let locale = geoResponse.address.locality;
+
+						return [latitude, longitude, nickname, locale];
+
+				}
+
+				catch (error) {
+
+						let latitude = ""; 
+						let longitude = "";
+						let nickname = ""
+						let locale = "";
+
+						console.log("Couldn't get response from geonames: ", error);
+						console.log(requestConfig);
+
+						return [latitude, longitude, nickname, locale];
+
+				}
+
+}
+
+const getWeather = async (latitude, longitude, departureDate, daysApart) => {
+
+		let weatherURL = await getWeatherURL(daysApart, latitude, longitude);
+
+		console.log(weatherURL);
 		
 		let requestConfig = await fetch(weatherURL);
 
 			try {
 
 					const weatherResponse = await requestConfig.json();
+					
 					console.log(weatherResponse);
 
+					let weatherSuccess = "success";
 					let obTime = weatherResponse.data[0].ob_time;
-					let temp = Math.round(weatherResponse.data[0].temp);
+					let celsius = weatherResponse.data[0].temp;
+					let faren = celsius * (9 / 5) + 32;
+					let temp = Math.round(faren);
 					let precip = Math.round(weatherResponse.data[0].precip);
 					let clouds = Math.round(weatherResponse.data[0].clouds); 
 					let countryCode = false;
@@ -86,72 +109,134 @@ const getWeather = async (latitude, longitude, departureDate, daysApart) => {
 					if (daysApart > 7) {
 
 							countryCode = weatherResponse.country_code;
-							console.log(countryCode);
 
 					}
 
 					else {
 
 							countryCode = weatherResponse.data[0].country_code;
-							console.log(countryCode);
 					}
 
+					console.log("Country Code: " + countryCode);
 
-					let requestCountry = await fetch(`https://restcountries.eu/rest/v2/alpha/${countryCode}`);
-
-
-
-							try {
-
-									let countryResponse = await requestCountry.json();
-									
-									let countryName = countryResponse.name;
-									let countryCapital = countryResponse.capital;
-									let countryCurrency = countryResponse.currencies[0].name;
-									let countryLanguage = countryResponse.languages[0].name;
-
-									console.log(`Observed: ${obTime} Temperature: ${temp} Chance of percipitation: ${precip} Cloud coverage: ${clouds} Country: ${countryName} Capital: ${countryCapital} Currency: ${countryCapital} Language: ${countryLanguage}`);
-
-									return [obTime, temp, precip, clouds, countryName, countryCapital, countryCurrency, countryLanguage];
-
-							}
-
-
-							catch (error) {
-
-									console.log("Couldn't get response from restcountries", error);
-									console.log(requestCountry);
-							}
-					
+					return [weatherSuccess, obTime, temp, precip, clouds, countryCode];
 
 			}
 
 			catch (error) {
 
-						console.log("Couldn't get response from weatherbit", error);
-						console.log(requestConfig);
+					console.log("Couldn't get a response from weatherbit", error);
+					
+					console.log(requestConfig);
+
+					let weatherSuccess = "fail";
+					let obTime = "";
+					let temp = "";
+					let precip = "";
+					let clouds = "";
+					let countryCode = false;
+
+					return [weatherSuccess, obTime, temp, precip, clouds, countryCode];
 
 			}
 
 }
 
+const getCountryInfo = async (countryCode, country) => {
 
-const getPicture = async (country) => {
+		let codeURL = `https://restcountries.eu/rest/v2/alpha/${countryCode}`;
+		let countryURL = `https://restcountries.eu/rest/v2/name/${country}`;
+		
+		let fetchURL = codeURL;
+		let restjson = "code";
 
-	let baseURL = "https://pixabay.com/api/?";
-	let pixaKey = "16017582-ad9041b9831f65adba01f42bb";
+		if (countryCode == false || countryCode == undefined || countryCode == "" || countryCode == null || countryCode == NaN) {
 
-	let requestConfig = await fetch(`${baseURL}&key=${pixaKey}&q=${country}&image_type=photo&order=popular`);
+				fetchURL = countryURL;
+				restjson = "country";
+
+		} 
+
+		console.log(countryCode);
+		console.log(country);
+		console.log(fetchURL);
+		console.log(restjson)
+
+		let requestCountry = await fetch(fetchURL);
 
 		try {
 
-						const pixaResponse = await requestConfig.json();
-						
-						let countryPicURL = pixaResponse.hits[1].largeImageURL;
+				let countryResponse = await requestCountry.json();
 
-						console.log(countryPicURL);
-						
-						return countryPicURL;
+				console.log(countryResponse);
+
+				let countrySuccess = "success";
+				let countryName = ""; 
+				let countryCapital = "";
+				let countryCurrency = "";
+				let countryLanguage = "";
+
+
+				if (restjson == "code") {
+
+						countryName = countryResponse.name;
+						countryCapital = countryResponse.capital;
+						countryCurrency = countryResponse.currencies[0].name;
+						countryLanguage = countryResponse.languages[0].name;
+				}
+
+				if (restjson == "country") {
+
+						countryName = countryResponse[0].name;
+
+						console.log("countryName: " + countryName);
+
+						countryCapital = countryResponse[0].capital;
+						countryCurrency = countryResponse[0].currencies[0].name;
+						countryLanguage = countryResponse[0].languages[0].name;
+
+				}
+
+
+				return [countrySuccess, countryName, countryCapital, countryCurrency, countryLanguage];
+
+		}
+
+		catch (error) {
+
+				let countrySuccess = "fail";
+				let countryName = "";
+				let countryCapital = "";
+				let countryCurrency = "";
+				let countryLanguage ="";
+
+				console.log("Couldn't get a response from restcountries", error);
+
+				return [countrySuccess, countryName, countryCapital, countryCurrency, countryLanguage];
+
+		}
+
+}
+
+
+const getPicture = async (countryName) => {
+
+	let baseURL = "https://pixabay.com/api/?";
+	let pixaKey = process.env.PIXA_KEY;
+
+	console.log(pixaKey);
+
+	let requestConfig = await fetch(`${baseURL}&key=${pixaKey}&q=${countryName}&image_type=photo&order=popular`);
+
+		try {
+
+				const pixaResponse = await requestConfig.json();
+				
+				let pixaURL = pixaResponse.hits[1].largeImageURL;
+
+				console.log(pixaURL);
+				
+				return pixaURL;
 
 		}
 
@@ -160,8 +245,12 @@ const getPicture = async (country) => {
 				console.log("Couldn't get response from pixabay", error);
 				console.log(requestConfig);
 
+				let failURL = "https://mars.nasa.gov/internal_resources/647";
+
+				return failURL;
+
 		}
 
 }
 
-export { getCoordinates, getWeather, getPicture };
+export { getCoordinates, getWeather, getCountryInfo, getPicture };

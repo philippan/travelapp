@@ -1,44 +1,50 @@
 import { compareDates } from './compareDates.js';
 
-const countdown = (now, departureDate) => {
+const countdown = (now, departureDate, nickname, locale) => {
 
 let daysApart = compareDates(now, departureDate);
 
-let displayDiv = document.getElementById("countdown");
+let displayCountdown = document.getElementById("countdown");
 
 		if (daysApart > 1) {
 		
 				daysApart = Math.round(daysApart);
-				displayDiv.innerHTML = `
+				displayCountdown.innerHTML = `
 						<h4>Countdown</h4>
-						<p>Your trip starts in ${daysApart} days</p>
+						<p>Your trip to ${locale} starts in ${daysApart} days</p>
 				`;
 		}
 
-		if (daysApart >= 1 && daysApart <= 1.5) {
+		else if (daysApart >= 1 && daysApart <= 1.5) {
 		
-				displayDiv.innerHTML = `
-						<p>Your trip starts tomorrow</p>
+				displayCountdown.innerHTML = `
+						<p>Your trip to ${locale} starts tomorrow</p>
 				`;
 		}
 
-		if (daysApart < 1 && daysApart > -1) {
+		else if (daysApart < 1 && daysApart > -1) {
 		
 				console.log("Countdown: " + daysApart);
 
-				displayDiv.innerHTML = `
+				displayCountdown.innerHTML = `
 						<h4>Countdown</h4>
-						<p>Your trip is today</p>
+						<p>Your trip to ${locale} is today</p>
 				`;
 
 		}
 
-		if (daysApart <= -1) {
+		else if (daysApart <= -1) {
 		
-				displayDiv.innerHTML = `
+				displayCountdown.innerHTML = `
 						<h4>Countdown</h4>
-						<p>Reminiscing about a trip?</p>
+						<p>Reminiscing about a trip to ${locale}?</p>
 				`;
+		}
+
+		else {
+
+				displayCountdown.style.display = "none";
+
 		}
 
 }
