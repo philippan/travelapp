@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
@@ -17,8 +18,13 @@ module.exports = {
     context: __dirname, 
     target: "web",
     stats: "errors-only",
+    optimization: {
+                  minimize: true,
+                  minimizer: [new TerserPlugin()],
+    },
     module: {
       rules: [
+           
           {
               test: /\.m?js$/,
               exclude: /(node_modules|bower_components)/,
@@ -49,15 +55,15 @@ module.exports = {
           {
               test: /\.s(a|c)ss$/,
               use: ['style-loader', 'css-loader', 'sass-loader']
-          }
+          },
       ],
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: "./src/client/views/index.html",
-            filename: "./index.html"
-        }),
-        new CleanWebpackPlugin(),
-        new Dotenv()
-    ]
+  plugins: [
+      new HtmlWebpackPlugin({
+          template: "./src/client/views/index.html",
+          filename: "./index.html"
+      }),
+      new CleanWebpackPlugin(),
+      new Dotenv()
+  ]
 }
