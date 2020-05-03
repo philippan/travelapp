@@ -66,10 +66,8 @@ const appResponse = async () => {
 
 				displayWeather(countrySuccess, daysApart, departureDisplay, obTime, temp, precip, clouds, country, countryName, countryCapital, countryCurrency, countryLanguage);
 				
-
 				countdown(now, departureDate, nickname, locale);
 
-				
 				loadEnd();
 
 
@@ -83,9 +81,7 @@ const appResponse = async () => {
 				
 				displayNoResults(countrySuccess, country, countryName, countryCapital, countryCurrency, countryLanguage, pixaResponse);
 
-
 				countdown(now, departureDate, nickname, locale);
-
 
 				loadEnd();
 
@@ -99,6 +95,7 @@ const appResponse = async () => {
 				displayError();
 
 				let displayCountdown = document.getElementById("countdown");
+				
 				displayCountdown.style.display = "none";
 
 
