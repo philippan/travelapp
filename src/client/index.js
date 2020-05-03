@@ -85,6 +85,8 @@ const getCoordinates = async (street, city, state, country) => {
 
 const getWeather = async (latitude, longitude, departureDate, daysApart) => {
 
+		console.log("Values for JEST testing: " + latitude + " " + longitude + " " + departureDate + " " + daysApart);
+
 		let weatherURL = await getWeatherURL(daysApart, latitude, longitude);
 
 		console.log(weatherURL);
@@ -95,7 +97,15 @@ const getWeather = async (latitude, longitude, departureDate, daysApart) => {
 
 					const weatherResponse = await requestConfig.json();
 					
+					/*
+					console.log(daysApart);
 					console.log(weatherResponse);
+					console.log(weatherResponse.country_code);
+					console.log(weatherResponse.data);
+					console.log(weatherResponse.data[0]);
+					console.log(weatherResponse.data[0].country_code);
+					console.log(weatherResponse.data[1]);
+					*/
 
 					let weatherSuccess = "success";
 					let obTime = weatherResponse.data[0].ob_time;
@@ -116,8 +126,6 @@ const getWeather = async (latitude, longitude, departureDate, daysApart) => {
 
 							countryCode = weatherResponse.data[0].country_code;
 					}
-
-					console.log("Country Code: " + countryCode);
 
 					return [weatherSuccess, obTime, temp, precip, clouds, countryCode];
 
@@ -253,4 +261,4 @@ const getPicture = async (countryName) => {
 
 }
 
-export { getCoordinates, getWeather, getCountryInfo, getPicture };
+export { getWeatherURL, getCoordinates, getWeather, getCountryInfo, getPicture };

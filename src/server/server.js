@@ -12,8 +12,30 @@ const compiler = webpack(config);
 
 // Tell express to use the webpack-dev-middleware and use the webpack.config.js
 // configuration file as a base.
+
 app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
 }));
 
+const cors = require('cors');
+app.use (cors());
+app.use(express.static(__dirname));
+
 app.listen(port);
+
+module.exports = app;
+
+
+const returnHistory = (request, response) => {
+
+		let history = JSON.stringify({
+				roadmap: "Saving weather history is on our roadmap."
+		});
+
+		console.log("Tried to fetch history");
+
+		response.send(messages);
+
+}
+
+app.get('/history', returnHistory);

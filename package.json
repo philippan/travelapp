@@ -8,14 +8,30 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node src/server/server.js",
-    "start:dev": "webpack-dev-server",
-    "server": "node src/server/server.js",
-    "build": "webpack --progress --colors --config webpack.prod.js --bail",
-    "build-dev": "webpack --config webpack.dev.js --open",
+    "start": "node ./src/server/server.js",
+    "start-dev": "webpack-dev-server",
+    "server": "node ./src/server/server.js",
+    "build": "webpack --progress --config webpack.prod.js",
+    "build-dev": "webpack --progress --config webpack.dev.js --open 'Google Chrome'",
+    "postinstall": "npm run build",
+    "watch": "webpack --watch",
     "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
     "heroku-postbuild": "echo This runs afterwards.",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start-test": "start-server-and-test start http://localhost:8080 test"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ],
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "repository": {
     "type": "git",
@@ -31,35 +47,47 @@
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "babel-loader": "^8.1.0",
+    "bufferutil": "^4.0.1",
     "clean-webpack-plugin": "^3.0.0",
     "cli-progress": "^3.8.1",
+    "compression-webpack-plugin": "^3.1.0",
     "cool-ascii-faces": "^1.3.4",
+    "cors": "^2.8.5",
     "css-loader": "^3.5.3",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.7.0",
     "express": "^4.17.1",
+    "fibers": "^5.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^21.0.0",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-webpack": "^0.5.1",
+    "jsdom": "^16.2.2",
     "json-loader": "^0.5.7",
     "node": "^14.0.0",
     "node-geonames-client": "0.0.2",
+    "node-sass": "^4.14.0",
     "npm": "^6.14.4",
-    "pg": "^7.18.2",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "regenerator-runtime": "^0.13.5",
-    "run": "^1.4.0",
-    "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
-    "server": "^1.0.27",
     "source-map": "^0.7.3",
     "source-map-loader": "^0.2.4",
+    "start-server-and-test": "^1.11.0",
     "style-loader": "^1.2.1",
-    "sudo": "^1.0.3",
+    "supertest": "^4.0.2",
     "terser-webpack-plugin": "^2.3.6",
+    "utf-8-validate": "^5.0.2",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.7.2",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.2",
+    "webpack-polyfill-injector": "^3.0.2",
+    "whatwg-fetch": "^3.0.0",
+    "workbox-webpack-plugin": "^5.1.3"
   },
   "devDependencies": {
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "babel-core": "^7.0.0-bridge.0"
   }
 }

@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 const regeneratorRuntime = require("regenerator-runtime");
 const now = new Date(); 
 const userSubmit = document.getElementById("userSubmit"); 
@@ -17,6 +18,25 @@ import { getObscure } from './getObscure.js';
 import { displayError } from './displayError.js';
 
 import  '../styles/index.scss';
+
+// serviceWorker
+
+if ('serviceWorker' in navigator) {
+		
+		window.addEventListener('load', () => {
+		
+				navigator.serviceWorker.register('/service-worker.js').then(registration => {
+		
+						console.log('SW registered: ', registration);
+			
+				}).catch(registrationError => {
+		
+						console.log('SW registration failed: ', registrationError);
+		
+				});
+
+		});
+}
 
 
 // APP FUNCTION

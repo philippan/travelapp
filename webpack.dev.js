@@ -1,12 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     mode: "development", 
-    entry: "./src/client/js/app.js",
+    entry: ['whatwg-fetch', './src/client/js/app.js'],
     output: {
       path: path.resolve(__dirname, "dist"),
       filename: "bundle.js",
@@ -16,20 +18,17 @@ module.exports = {
     },
     devtool: "source-map", 
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
+        contentBase: './dist',
         compress: true,
-        port: 9000
+        port: 9000,
+        open: true
     },
+    watch: true,
     context: __dirname, 
     target: "web",
-    stats: "errors-only",
-    optimization: {
-                  minimize: true,
-                  minimizer: [new TerserPlugin()],
-    },
+    stats: "normal",
     module: {
       rules: [
-           
           {
               test: /\.m?js$/,
               exclude: /(node_modules|bower_components)/,
@@ -42,23 +41,28 @@ module.exports = {
           },
           {
               test: /\.js$/,
+              exclude: /node_modules/,
               use: ["source-map-loader"],
               enforce: "pre"
           },
           {
               test: /\.html$/i,
+              exclude: /node_modules/,
               loader: 'html-loader',
           },
           {
               test: /\.json$/,
+              exclude: /node_modules/,
               loader: 'json-loader'
           },
           {
               test: /\.css$/i,
+              exclude: /node_modules/,
               use: ['style-loader', 'css-loader'],
           },
           {
               test: /\.s(a|c)ss$/,
+              exclude: /node_modules/,
               use: ['style-loader', 'css-loader', 'sass-loader']
           },
       ],
@@ -69,6 +73,12 @@ module.exports = {
           filename: "./index.html"
       }),
       new CleanWebpackPlugin(),
-      new Dotenv()
+      new Dotenv(),
+      new CompressionPlugin(),
+      new ProgressBarPlugin(),
+      new WorkboxPlugin.GenerateSW({
+                clientsClaim: true,
+                skipWaiting: true,
+      }),
   ]
 }
